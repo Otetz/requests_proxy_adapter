@@ -9,7 +9,7 @@ Set of Proxy Transport Adapters for module :mod:`requests`.
 
 import time
 
-from requests import PreparedRequest, Response
+from requests import PreparedRequest
 from requests.adapters import HTTPAdapter
 from requests.exceptions import ProxyError
 from urllib3 import Retry, HTTPResponse

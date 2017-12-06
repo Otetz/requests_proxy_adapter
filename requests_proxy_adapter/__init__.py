@@ -8,6 +8,6 @@ __version__ = '0.1.0'
 
 import logging
 
-from .api import PrivoxyAdapter, RetryPrivoxyAdapter
+from .api import PrivoxyAdapter, RetryPrivoxyAdapter  # noqa: F401
 
 logging.getLogger("urllib3").setLevel(logging.ERROR)
