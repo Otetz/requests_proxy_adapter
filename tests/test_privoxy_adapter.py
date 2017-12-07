@@ -3,6 +3,7 @@
 """Tests for :class:`requests_proxy_adapter.PrivoxyAdapter` class."""
 
 import requests
+from flaky import flaky
 from pytest import raises, fixture
 
 from requests_proxy_adapter import PrivoxyAdapter
@@ -24,6 +25,7 @@ def public_ip():
     return r.json()['origin']
 
 
+@flaky
 # noinspection PyShadowingNames
 def test_http(public_ip):
     s = requests.Session()
@@ -36,6 +38,7 @@ def test_http(public_ip):
     assert anon_ip != public_ip
 
 
+@flaky
 # noinspection PyShadowingNames
 def test_https(public_ip):
     s = requests.Session()
@@ -48,6 +51,7 @@ def test_https(public_ip):
     assert anon_ip != public_ip
 
 
+@flaky
 def test_internal_retry():
     s = requests.Session()
     retries = 2
