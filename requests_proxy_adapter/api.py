@@ -9,10 +9,10 @@ Set of Proxy Transport Adapters for module :mod:`requests`.
 
 import time
 
-from requests import PreparedRequest
+from requests import PreparedRequest  # noqa: F401
 from requests.adapters import HTTPAdapter
 from requests.exceptions import ProxyError
-from urllib3 import Retry, HTTPResponse
+from urllib3 import Retry, HTTPResponse  # noqa: F401
 
 from .exceptions import (
     PrivoxyError4Retry, ForwardingFailedError, NoServerDataError, ConnectionTimeoutError, PrivoxyError,
@@ -28,7 +28,7 @@ class PrivoxyAdapter(HTTPAdapter):
 
     __attrs__ = HTTPAdapter.__attrs__ + ['_proxies', 'retry_wait', 'proxy_url', '_retries', '_count']
 
-    def __init__(self, proxy_url: str, retry_wait: int = 1, retries: int = 3, **kwargs):
+    def __init__(self, proxy_url, retry_wait=1, retries=3, **kwargs):
         """
         Adapter for basic usage with Privoxy proxy-server.
 
@@ -72,7 +72,7 @@ class PrivoxyAdapter(HTTPAdapter):
             return self.send(*args, **kwargs)
         return res
 
-    def build_response(self, req: PreparedRequest, resp: HTTPResponse):
+    def build_response(self, req, resp):
         """
         Builds a :class:`Response <requests.Response>` object from a urllib3 response.
 
@@ -112,8 +112,7 @@ class RetryPrivoxyAdapter(PrivoxyAdapter):
 
     __attrs__ = PrivoxyAdapter.__attrs__ + ['retries', 'backoff_factor', 'status_forcelist']
 
-    def __init__(self, retries: int = 3, backoff_factor: float = 0.3, status_forcelist: set = (500, 502, 504), *args,
-                 **kwargs):
+    def __init__(self, retries=3, backoff_factor=0.3, status_forcelist=(500, 502, 504), *args, **kwargs):
         """
         :class:`PrivoxyAdapter` extended with :class:`Retry` configuration.
 
