@@ -1,13 +1,22 @@
 # Config file for automatic testing at travis-ci.org
 # This file will be regenerated if you run travis_pypi_setup.py
 
+sudo: required
+
+services:
+  - docker
+
 language: python
 python:
+  - 3.6
   - 3.5
   - 3.4
-  - 3.3
   - 2.7
-  - 2.6
+
+before_install:
+  - docker pull otetz/alpine-tor
+  - docker run -d --rm --name anonymizer -p 8118:8118 -e tors=1 -e privoxy=1 -e new_circuit_period=20 -e max_circuit_dirtiness=60 -e circuit_build_timeout=15 otetz/alpine-tor
+  - docker ps -a
 
 # command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors
 install: pip install -U tox-travis
