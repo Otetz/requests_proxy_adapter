@@ -1,6 +1,7 @@
 CHANGES
 =======
 
+* Documentation
 * Travis
 * Setup, reqs and tox
 * Flaky tests

@@ -29,10 +29,10 @@ script: tox
 deploy:
   provider: pypi
   distributions: sdist bdist_wheel
-  user: otetz
+  user: Otetz
   password:
     secure: PLEASE_REPLACE_ME
   on:
     tags: true
-    repo: otetz/requests_proxy_adapter
+    repo: Otetz/requests_proxy_adapter
     python: 2.7
