@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-"""Top-level package for Requests Proxy Adapter."""
-
 import logging
 
 from .api import PrivoxyAdapter, RetryPrivoxyAdapter  # noqa: F401

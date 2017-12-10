@@ -24,23 +24,20 @@ class PrivoxyAdapter(HTTPAdapter):
     The transport adapter for Requests to use Privoxy proxy-server with retries when backend errors occurred.
 
     Implements Requests's :class:`HTTPAdapter` API.
+
+    If privoxy backend raises `500 Internal Privoxy Error` in suitable cases make `retries` number of internal
+    retries with delay of `retry_wait` seconds.
+
+    :param str proxy_url: Complete URL-address of Privoxy proxy instance (scheme, host & port).
+    :param int retry_wait: (optional) Waiting in seconds before next retry if backend raise specified errors.
+        Default 1 second.
+    :param int retries: (optional) Maximum number of retries. Default 3 times.
+    :param kwargs: (optional) Arbitrary keyword arguments for parent class :class:`HTTPAdapter`.
     """
 
     __attrs__ = HTTPAdapter.__attrs__ + ['_proxies', 'retry_wait', 'proxy_url', '_retries', '_count']
 
     def __init__(self, proxy_url, retry_wait=1, retries=3, **kwargs):
-        """
-        Adapter for basic usage with Privoxy proxy-server.
-
-        If privoxy backend raises `500 Internal Privoxy Error` in suitable cases make `retries` number of internal
-        retries with delay of `retry_wait` seconds.
-
-        :param str proxy_url: Complete URL-address of Privoxy proxy instance (scheme, host & port).
-        :param int retry_wait: (optional) Waiting in seconds before next retry if backend raise specified errors.
-            Default 1 second.
-        :param int retries: (optional) Maximum number of retries. Default 3 times.
-        :param kwargs: (optional) Arbitrary keyword arguments for parent class :class:`HTTPAdapter`.
-        """
         self.proxy_url = proxy_url
         self._proxies = {
             'http': proxy_url, 'https': proxy_url,
@@ -108,21 +105,18 @@ class RetryPrivoxyAdapter(PrivoxyAdapter):
     retries if errors occured on target site by :class:`Retry` module.
 
     Implements Requests's :class:`HTTPAdapter` API. Extend class :class:`PrivoxyAdapter`
+
+    :param int retries: Total number of retries to allow. Takes precedence over other counts.
+    :param float backoff_factor: A backoff factor to apply between attempts after the second try (most errors are
+        resolved immediately by a second try without a delay).
+    :param set status_forcelist: A set of integer HTTP status codes that we should force a retry on.
+    :param args: Variable length argument list.
+    :param kwargs: Arbitrary keyword arguments.
     """
 
     __attrs__ = PrivoxyAdapter.__attrs__ + ['retries', 'backoff_factor', 'status_forcelist']
 
     def __init__(self, retries=3, backoff_factor=0.3, status_forcelist=(500, 502, 504), *args, **kwargs):
-        """
-        :class:`PrivoxyAdapter` extended with :class:`Retry` configuration.
-
-        :param int retries: Total number of retries to allow. Takes precedence over other counts.
-        :param float backoff_factor: A backoff factor to apply between attempts after the second try (most errors are
-            resolved immediately by a second try without a delay).
-        :param set status_forcelist: A set of integer HTTP status codes that we should force a retry on.
-        :param args: Variable length argument list.
-        :param kwargs: Arbitrary keyword arguments.
-        """
         self.retries = retries
         self.backoff_factor = backoff_factor
         self.status_forcelist = status_forcelist

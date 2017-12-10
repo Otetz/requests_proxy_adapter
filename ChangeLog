@@ -1,0 +1,10 @@
+CHANGES
+=======
+
+* Travis
+* Setup, reqs and tox
+* Flaky tests
+* Python 2 compatible
+* flake8 hints
+* Initial version of module
+* Initial commit
