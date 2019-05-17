@@ -1,6 +1,9 @@
 CHANGES
 =======
 
+* Update requests to 2.22.0.
+* Drop Python 3.4 support (via requests)
+* Update toolset versions
 * Documentation
 * Travis
 * Setup, reqs and tox
