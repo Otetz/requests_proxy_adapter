@@ -101,7 +101,7 @@ Before you submit a pull request, check that it meets these guidelines:
 2. If the pull request adds functionality, the docs should be updated. Put
    your new functionality into a function with a docstring, and add the
    feature to the list in README.rst.
-3. The pull request should work for Python 2.6, 2.7, 3.3, 3.4 and 3.5, and for PyPy. Check
+3. The pull request should work for Python 2.7, 3.5, 3.6 and 3.7. Check
    https://travis-ci.org/Otetz/requests_proxy_adapter/pull_requests
    and make sure that the tests pass for all supported Python versions.
 
@@ -112,3 +112,7 @@ To run a subset of tests::
 
 $ py.test tests.test_requests_proxy_adapter
 
+To run local anonymous proxy instance::
+
+$ docker pull otetz/alpine-tor
+$ docker run -d --rm --name anonymizer -p 8118:8118 -e tors=1 -e privoxy=1 -e new_circuit_period=20 -e max_circuit_dirtiness=60 -e circuit_build_timeout=15 otetz/alpine-tor

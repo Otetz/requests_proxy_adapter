@@ -6,12 +6,14 @@ sudo: required
 services:
   - docker
 
+dist: xenial   # required for Python >= 3.7
 language: python
 python:
-  - 3.6
-  - 3.5
-  - 3.4
-  - 2.7
+  - "3.8-dev"
+  - "3.7"
+  - "3.6"
+  - "3.5"
+  - "2.7"
 
 before_install:
   - docker pull otetz/alpine-tor
@@ -28,11 +30,11 @@ script: tox
 # travis_pypi_setup.py script to finish PyPI deployment setup
 deploy:
   provider: pypi
-  distributions: sdist bdist_wheel
+  distributions: "sdist bdist_wheel"
   user: Otetz
   password:
     secure: PLEASE_REPLACE_ME
+  skip_existing: true
   on:
     tags: true
     repo: Otetz/requests_proxy_adapter
-    python: 2.7
