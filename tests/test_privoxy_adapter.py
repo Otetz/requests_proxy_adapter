@@ -59,7 +59,7 @@ def test_internal_retry():
     s.mount('http://', adapter)
     s.mount('https://', adapter)
 
-    with raises(PrivoxyError, message='Expecting PrivoxyError') as pe:
+    with raises(PrivoxyError) as pe:
         s.get('http://localhost:9999')
     assert pe.value.args[0] == 'Too many retries: %d' % retries
 

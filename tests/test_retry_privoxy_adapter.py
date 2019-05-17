@@ -18,7 +18,7 @@ def test_http():
     s.mount('http://', adapter)
     s.mount('https://', adapter)
 
-    with raises(RetryError, message='Expecting RetryError'):
+    with raises(RetryError):
         s.get('http://localhost:9999')
 
 
@@ -29,7 +29,7 @@ def test_timeout():
     s.mount('http://', adapter)
     s.mount('https://', adapter)
 
-    with raises(ConnectionError, message='Expecting ConnectionError'):
+    with raises(ConnectionError):
         s.get('http://httpbin.org/delay/2', timeout=1)
 
 
@@ -40,7 +40,7 @@ def test_error_500():
     s.mount('http://', adapter)
     s.mount('https://', adapter)
 
-    with raises(RetryError, message='Expecting RetryError'):
+    with raises(RetryError):
         s.get('http://httpbin.org/status/500')
 
 
