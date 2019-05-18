@@ -41,6 +41,30 @@ Features
   module.
 
 
-.. include:: usage
+Usage
+*****
 
-.. include:: ../AUTHORS
+The simple exmaple of usage adapters (Privoxy run locally on 8118 port)::
+
+    >>> import requests
+    >>> from requests_proxy_adapter import PrivoxyAdapter
+
+    >>> r = requests.get('http://httpbin.org/ip')
+    >>> public_ip = r.json()['origin']
+
+    >>> s = requests.Session()
+    >>> s.mount('http://', PrivoxyAdapter('http://localhost:8118'))
+    >>> r = s.get('http://httpbin.org/ip')
+    >>> assert r.status_code == 200
+
+    >>> anon_ip = r.json()['origin']
+    >>> assert anon_ip != public_ip
+
+See also `Requests Transport Adapters`_ documentation.
+
+.. _Requests Transport Adapters: http://docs.python-requests.org/en/latest/user/advanced/#transport-adapters
+
+Authors
+*******
+
+Alexey Shevchenko <otetz@me.com>
